@@ -1,0 +1,15 @@
+[project]
+name = "spotter-assessment"
+version = "0.1.0"
+description = "Fuel-Optimal Route Planner API"
+dependencies = [
+    "django>=4.2,<5.0",
+    "djangorestframework>=3.14.0",
+    "django-cors-headers>=4.0.0",
+    "requests>=2.31.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+]
+
+[tool.vercel]
+entrypoint = "backend/django_app/config/wsgi.py"

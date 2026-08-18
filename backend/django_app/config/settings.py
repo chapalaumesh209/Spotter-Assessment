@@ -93,5 +93,9 @@ MAX_RANGE_MILES = float(os.environ.get('MAX_RANGE_MILES', 500.0))
 MPG = float(os.environ.get('MPG', 10.0))
 TANK_CAPACITY_GALLONS = float(os.environ.get('TANK_CAPACITY_GALLONS', 50.0))
 
-PROCESSED_DATA_PATH = os.path.join(BASE_DIR.parent, 'data', 'processed_fuel_prices.csv')
+# Fallback path lookup
+_app_data = os.path.join(BASE_DIR, 'fuel_optimizer', 'data', 'processed_fuel_prices.csv')
+_backend_data = os.path.join(BASE_DIR.parent, 'data', 'processed_fuel_prices.csv')
+PROCESSED_DATA_PATH = _app_data if os.path.exists(_app_data) else _backend_data
+
 ORIGINAL_CSV_PATH = os.path.join(PROJECT_ROOT, 'fuel-prices-for-be-assessment.csv')

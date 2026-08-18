@@ -1,11 +1,14 @@
 import { RouteResponse } from '../types';
 
+const API_BASE = (import.meta as any).env?.VITE_API_URL || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://localhost:8000' : '');
+
 export const calculateRoute = async (start: string, finish: string): Promise<RouteResponse> => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
   try {
-    const response = await fetch('http://localhost:8000/api/v1/route', {
+    const url = `${API_BASE}/api/v1/route`;
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
