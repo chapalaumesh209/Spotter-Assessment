@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "8f39a482-3d5f-4a6c-9c94-bf83501a3512",
+		"name": "Spotter - Fuel Optimal Route Planner API",
+		"description": "Postman collection for demonstrating the Fuel-Optimal Route Planner API built in Django REST Framework.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Health Check & Stations Count",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/v1/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"health"
+					]
+				},
+				"description": "Verifies that the Django API is healthy and returns the number of loaded fuel stations (6,626)."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Short Route (< 500 mi, 0 Fuel Stops)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Boston, MA\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/route",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"route"
+					]
+				},
+				"description": "Short route (~215 miles). Because the vehicle starts with a full 50-gallon tank (500 miles range), 0 stops are needed and total cost is $0.00."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Medium Route - NY to Chicago (Optimal Fuel Stops)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Chicago, IL\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/route",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"route"
+					]
+				},
+				"description": "Medium route (~790 miles). Identifies 2 optimal fuel stops along the corridor, purchasing only what is needed."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Long Cross-Country Route - NY to Los Angeles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"start\": \"New York, NY\",\n  \"finish\": \"Los Angeles, CA\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/route",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"route"
+					]
+				},
+				"description": "Cross-country route (~2,790 miles). Demonstrates lookahead optimization across 500-mile hops with multiple fuel stops."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Validation Error - Missing Field",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"start\": \"New York, NY\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/route",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"route"
+					]
+				},
+				"description": "Demonstrates 400 Bad Request error response when required fields are missing."
+			},
+			"response": []
+		}
+	]
+}
